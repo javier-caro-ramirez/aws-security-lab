@@ -1,16 +1,33 @@
 name: snyk scaning
 on: workflow_dispatch
 jobs:
-    first_job:
+    checkout_and_scan:
         runs-on: ubuntu-latest
         steps:
         - name: get code
-          uses: actions/checkout@v6
+          uses: actions/checkout@v7
+        - name: Java Setup
+          uses: actions/setup-java@v6
+          with:
+            distribution: temurin
+            java-version: '8' # based on pom.xml
+            cache: maven
+        - name: verify Java and Maven
+          run: |
+            java -version
+            javac -version
+            mvn -version
         - name: install dependencies
           run: mvn install
         - name: compile the project
           run: mvn compile
+        - name: Install snyk CLI
+          run: |
+            npm install --global snyk
+            snyk --version
+        - name: Snyk Scan Dependencies - Reachability
+          run: snyk test --reachable
+          env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
         - name: run the main class
           run: mvn exec:java -Dexec.mainClass=Unzipper
-        - name: run snyk
-          run: snyk test --reachable
