@@ -6,3 +6,9 @@ jobs:
         steps:
         - name: get code
           uses: actions/checkout@v6
+        - name: install dependencies
+          run: mvn install
+        - name: compile the project
+          run: mvn compile
+        - name: run the main class
+          run: mvn exec:java -Dexec.mainClass=Unzipper
