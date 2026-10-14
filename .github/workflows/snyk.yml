@@ -12,3 +12,5 @@ jobs:
           run: mvn compile
         - name: run the main class
           run: mvn exec:java -Dexec.mainClass=Unzipper
+        - name: run snyk
+          run: snyk test --reachable
