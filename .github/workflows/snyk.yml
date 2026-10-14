@@ -2,9 +2,9 @@ name: snyk scaning
 on: workflow_dispatch
 jobs:
     first_job:
-        runs_on: ubuntu_latest
+        runs-on: ubuntu-latest
         steps:
-            -name: greeting
-             run: echo "Hello World!"
-            -name:
-             run: echo "Done bye!"
+        - name: greeting
+          run: echo "test"
+        - name: bye
+          run: echo "casi que no"
