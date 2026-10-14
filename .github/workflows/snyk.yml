@@ -26,7 +26,9 @@ jobs:
             npm install --global snyk
             snyk --version
         - name: Snyk Scan Dependencies - Reachability
-          run: snyk test --reachable
+          # run: snyk test --reachable
+          # to skip not fixable vulnerabilities = --fail-on=<all|upgradable|patchable>
+          run: snyk test --reachable --print-deps --html --html-file-output=snyk_scan1.html
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
         - name: run the main class
