@@ -32,8 +32,9 @@ jobs:
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
         - name: uploading snyk HTML report
-          uses: action/upload-artifact@V7
+          uses: actions/upload-artifact@v7
           with:
             name: snyk_scan1.html
+            path: /
         - name: run the main class
           run: mvn exec:java -Dexec.mainClass=Unzipper
