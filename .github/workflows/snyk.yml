@@ -29,14 +29,13 @@ jobs:
           continue-on-error: true
           # run: snyk test --reachable
           # to skip not fixable vulnerabilities = --fail-on=<all|upgradable|patchable>
-          # run: snyk test --print-deps --json-file-output=snyk_results.json
-          run: snyk test --print-deps --html-file-output=snyk_results.html
+          run: snyk test --print-deps --fail-on=all --json-file-output=snyk_results.json
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
         - name: uploading snyk HTML report
           uses: actions/upload-artifact@v7
           with:
             name: snyk scan report # Name of the GitHub Artifact
-            path: snyk_results.html
+            path: snyk_results.json
         - name: run the main class
           run: mvn exec:java -Dexec.mainClass=Unzipper
