@@ -37,6 +37,6 @@ jobs:
           uses: actions/upload-artifact@v7
           with:
             name: snyk scan report # Name of the GitHub Artifact
-            path: snyk_results.json
+            path: snyk_results.html
         - name: run the main class
           run: mvn exec:java -Dexec.mainClass=Unzipper
