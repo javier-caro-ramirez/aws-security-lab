@@ -29,7 +29,8 @@ jobs:
           continue-on-error: true
           # run: snyk test --reachable
           # to skip not fixable vulnerabilities = --fail-on=<all|upgradable|patchable>
-          run: snyk test --print-deps --json-file-output=snyk_results.json
+          # run: snyk test --print-deps --json-file-output=snyk_results.json
+          run: snyk test --print-deps --html-file-output=snyk_results.html
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
         - name: uploading snyk HTML report
