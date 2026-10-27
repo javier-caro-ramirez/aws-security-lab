@@ -1,0 +1,41 @@
+name: snyk scaning
+on: workflow_dispatch
+jobs:
+    checkout_and_scan:
+        runs-on: ubuntu-latest
+        steps:
+        - name: get code
+          uses: actions/checkout@v7
+        - name: Java Setup
+          uses: actions/setup-java@v6
+          with:
+            distribution: temurin
+            java-version: '8' # based on pom.xml
+            cache: maven
+        - name: verify Java and Maven
+          run: |
+            java -version
+            javac -version
+            mvn -version
+        - name: install dependencies
+          run: mvn install
+        - name: compile the project
+          run: mvn compile
+        - name: Install snyk CLI
+          run: |
+            npm install --global snyk
+            snyk --version
+        - name: Snyk Scan Dependencies - Reachability
+          continue-on-error: true
+          # run: snyk test --reachable
+          # to skip not fixable vulnerabilities = --fail-on=<all|upgradable|patchable>
+          run: snyk monitor --print-deps --fail-on=all --json-file-output=snyk_results.json
+          env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
+        - name: uploading snyk HTML report
+          uses: actions/upload-artifact@v7
+          with:
+            name: snyk scan report # Name of the GitHub Artifact
+            path: snyk_results.json
+        - name: run the main class
+          run: mvn exec:java -Dexec.mainClass=Unzipper
