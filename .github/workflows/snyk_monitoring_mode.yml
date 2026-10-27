@@ -31,11 +31,6 @@ jobs:
           # to skip not fixable vulnerabilities = --fail-on=<all|upgradable|patchable>
           run: snyk monitor --print-deps --fail-on=all
           env:
-            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}}
-        - name: uploading snyk HTML report
-          uses: actions/upload-artifact@v7
-          with:
-            name: snyk scan report # Name of the GitHub Artifact
-            path: snyk_results.json
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN}
         - name: run the main class
           run: mvn exec:java -Dexec.mainClass=Unzipper
